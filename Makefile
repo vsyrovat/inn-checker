@@ -17,3 +17,4 @@ clean:
 test:
 	mix format --check-formatted --dry-run
 	mix test
+	mix credo --strict
