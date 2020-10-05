@@ -11,7 +11,7 @@ defmodule AppWeb.Endpoint do
   ]
 
   socket "/socket", AppWeb.UserSocket,
-    websocket: true,
+    websocket: [connect_info: [:peer_data, :x_headers]],
     longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]

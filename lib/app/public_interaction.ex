@@ -16,8 +16,8 @@ defmodule App.PublicInteraction do
     |> Enum.reverse()
   end
 
-  def save_message(value) when is_binary(value) do
-    Message.changeset(%Message{}, %{value: value})
+  def save_message(attrs) do
+    Message.changeset(%Message{}, attrs)
     |> Repo.insert()
   end
 end

@@ -63,7 +63,7 @@ defmodule AppWeb.MainChannel do
   end
 
   def handle_in("new_check", payload, socket) do
-    {:ok, msg} = PublicInteraction.save_message(payload["inn"])
+    {:ok, msg} = PublicInteraction.save_message(%{value: payload["inn"], sender_ip: socket.assigns[:remote_ip]})
     broadcast!(socket, "new_message", format_msg(msg))
     {:noreply, socket}
   end

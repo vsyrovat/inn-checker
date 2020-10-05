@@ -8,6 +8,7 @@ defmodule App.PublicInteraction.Message do
 
   schema "messages" do
     field :value, :string
+    field :sender_ip, :string
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule App.PublicInteraction.Message do
   @doc false
   def changeset(message, attrs) do
     message
-    |> cast(attrs, [:value])
+    |> cast(attrs, [:value, :sender_ip])
     |> validate_required([:value])
   end
 end

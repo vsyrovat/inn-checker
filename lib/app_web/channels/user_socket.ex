@@ -16,7 +16,9 @@ defmodule AppWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
+  def connect(_params, socket, connect_info) do
+    remote_ip = connect_info[:peer_data][:address] |> :inet_parse.ntoa() |> to_string()
+    socket = socket |> assign(:remote_ip, remote_ip)
     {:ok, socket}
   end
 
