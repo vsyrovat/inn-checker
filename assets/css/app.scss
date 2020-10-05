@@ -1,5 +1,4 @@
-/* This file is for your main application css. */
-@import "./phoenix.css";
+@import '~bootstrap/scss/bootstrap';
 
 /* Alerts and form errors */
 .alert {
@@ -34,3 +33,7 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+
+.inn-form { font-size: 150%; }
+.correct { color: green; }
+.incorrect { color: red; }

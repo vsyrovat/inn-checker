@@ -2,7 +2,7 @@ defmodule AppWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", AppWeb.RoomChannel
+  channel "inn:main", AppWeb.MainChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
