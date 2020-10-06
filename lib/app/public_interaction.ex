@@ -26,4 +26,6 @@ defmodule App.PublicInteraction do
   def delete_message(%Message{} = message) do
     Repo.delete(message)
   end
+
+  def all_messages, do: Repo.all(Message)
 end

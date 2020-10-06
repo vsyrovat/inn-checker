@@ -15,6 +15,7 @@
       <div class="row">
         <div class="col-sm">
           <%= link "Home", to: Routes.page_path(@conn, :index) %>
+          <%= if admin?(@conn) do %>| <%= link "Admin", to: Routes.admin_admin_path(@conn, :index) %><% end %>
         </div>
         <div class="col-sm text-right">
           <%= if @conn.assigns.current_user do %>

@@ -3,7 +3,7 @@ defmodule AppWeb.MainChannel do
 
   use AppWeb, :channel
 
-  alias App.Checksum
+  alias App.Banhammer
   alias App.PublicInteraction
   alias App.PublicInteraction.Message
 
@@ -29,15 +29,8 @@ defmodule AppWeb.MainChannel do
       id: msg.id,
       datetime: format_datetime(msg.inserted_at),
       inn: msg.value,
-      is_correct: is_correct(msg)
+      is_correct: Message.correct?(msg)
     }
-  end
-
-  defp is_correct(%Message{} = msg) do
-    case Checksum.check(msg.value) do
-      {:ok, c} -> c
-      _ -> false
-    end
   end
 
   @impl Phoenix.Channel
@@ -64,8 +57,13 @@ defmodule AppWeb.MainChannel do
   end
 
   def handle_in("new_check", payload, socket) do
-    {:ok, msg} = PublicInteraction.save_message(%{value: payload["inn"], sender_ip: socket.assigns[:remote_ip]})
-    broadcast!(socket, "new_message", format_msg(msg))
+    sender_ip = socket.assigns[:remote_ip]
+
+    unless Banhammer.banned?(sender_ip) do
+      {:ok, msg} = PublicInteraction.save_message(%{value: payload["inn"], sender_ip: sender_ip})
+      broadcast!(socket, "new_message", format_msg(msg))
+    end
+
     {:noreply, socket}
   end
 end

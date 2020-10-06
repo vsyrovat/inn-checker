@@ -1,0 +1,7 @@
+<h2>Admin zone</h2>
+
+<p>
+Menu:
+<%= link "inns", to: Routes.admin_messages_path(@conn, :index) %> |
+<%= link "ips", to: Routes.admin_ips_path(@conn, :index) %>
+</p>

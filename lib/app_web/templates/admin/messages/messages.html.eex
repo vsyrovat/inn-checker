@@ -1,0 +1,20 @@
+<h2>Admin zone: INNs</h2>
+
+<div class="row">
+  <div class="col-sm">id</div>
+  <div class="col-sm">ip</div>
+  <div class="col-sm">inn</div>
+  <div class="col-sm">correct?</div>
+  <div class="col-sm">Actions</div>
+</div>
+
+<%= for message <- @messages do %>
+  <div class="row">
+    <div class="col-sm"><%= message.id %></div>
+    <div class="col-sm"><%= message.sender_ip %></div>
+    <div class="col-sm"><%= message.value %></div>
+    <div class="col-sm"><%= if correct?(message), do: 'yes', else: 'no' %></div>
+    <div class="col-sm"><span class="link js-ban-ip" data-ip="<%= message.sender_ip %>">Ban IP</span></div>
+  </div>
+<% end %>
+</div>

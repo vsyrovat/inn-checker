@@ -1,0 +1,14 @@
+<h2>Admin zone: IPs</h2>
+
+<div class="row">
+  <div class="col-sm">ip</div>
+  <div class="col-sm">Action</div>
+</div>
+
+
+<%= for ip <- @ips do %>
+  <div class="row">
+    <div class="col-sm"><%= ip %></div>
+    <div class="col-sm"><span class="link js-unban-ip" data-ip="<%= ip %>">Unban</span></div>
+  </div>
+<% end %>

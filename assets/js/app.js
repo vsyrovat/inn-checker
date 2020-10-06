@@ -67,3 +67,17 @@ function delete_message (id) {
     method: 'DELETE'
   })
 }
+
+$('.js-ban-ip').on('click', function(){
+  $.ajax({
+    url: '/api/ban-ip/'+$(this).data('ip'),
+    method: 'POST'
+  })
+})
+
+$('.js-unban-ip').on('click', function(){
+  $.ajax({
+    url: '/api/unban-ip/'+$(this).data('ip'),
+    method: 'POST'
+  })
+})

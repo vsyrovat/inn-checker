@@ -19,6 +19,14 @@ defmodule AppWeb.Router do
     plug AppWeb.Auth.CurrentUser
   end
 
+  pipeline :login_required do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
+  pipeline :admin_required do
+    plug AppWeb.Auth.CheckAdmin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
@@ -30,13 +38,23 @@ defmodule AppWeb.Router do
     get "/", PageController, :index
     resources "/login", SessionController, only: [:new, :create]
     post "/logout", SessionController, :delete
+
+    scope "/admin", Admin, as: :admin do
+      pipe_through [:login_required, :admin_required]
+
+      get "/", AdminController, :index
+      get "/messages", MessagesController, :index
+      get "/ips", IpsController, :index
+    end
   end
 
   # Other scopes may use custom stacks.
   scope "/api", AppWeb do
     pipe_through [:api, :with_session]
 
-    delete "/message/:id", ApiController, :delete
+    delete "/message/:id", ApiController, :delete_message
+    post "/ban-ip/:ip", ApiController, :ban_ip
+    post "/unban-ip/:ip", ApiController, :unban_ip
   end
 
   # Enables LiveDashboard only for development
