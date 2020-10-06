@@ -21,6 +21,7 @@ defmodule AppWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", AppWeb do
@@ -32,9 +33,11 @@ defmodule AppWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", AppWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", AppWeb do
+    pipe_through [:api, :with_session]
+
+    delete "/message/:id", ApiController, :delete
+  end
 
   # Enables LiveDashboard only for development
   #

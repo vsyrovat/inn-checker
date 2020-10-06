@@ -29,4 +29,12 @@ defmodule AppWeb.Auth do
   def logout(conn) do
     App.Guardian.Plug.sign_out(conn)
   end
+
+  def operator?(conn), do: _operator?(conn.assigns.current_user)
+  defp _operator?(%User{is_operator: true}), do: true
+  defp _operator?(_), do: false
+
+  def admin?(conn), do: _admin?(conn.assigns.current_user)
+  defp _admin?(%User{is_admin: true}), do: true
+  defp _admin?(_), do: false
 end

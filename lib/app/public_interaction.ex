@@ -20,4 +20,10 @@ defmodule App.PublicInteraction do
     Message.changeset(%Message{}, attrs)
     |> Repo.insert()
   end
+
+  def get_message!(id), do: Repo.get!(Message, id)
+
+  def delete_message(%Message{} = message) do
+    Repo.delete(message)
+  end
 end

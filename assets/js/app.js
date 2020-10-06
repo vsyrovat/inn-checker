@@ -35,12 +35,21 @@ form.on('submit', function() {
 channel.on('new_message', payload => {
   console.log(payload)
   const node = sample.clone()
+  node.data('id', payload.id)
   node.find('.js-date').text(payload.datetime)
   node.find('.js-inn').text(payload.inn)
   node.find('.js-status').text(payload.is_correct ? 'корректен' : 'некорректен')
+  node.find('.js-delete').on('click', function(){ delete_message($(this).closest('.js-context').data('id')); })
   message_list.prepend(node)
   node.removeClass('js-inn-result-sample').css('display', '')
   node.addClass(payload.is_correct ? 'correct' : 'incorrect')
+})
+
+channel.on('delete_message', payload => {
+  console.log(payload)
+  message_list.find(`.js-context`).filter(function(){
+    return $(this).data('id') == payload.id
+  }).remove()
 })
 
 channel.join()
@@ -51,3 +60,10 @@ $('.js-credentials').on('click', function(){
   $('.js-input-login').val($(this).data('login'))
   $('.js-input-password').val($(this).data('password'))
 })
+
+function delete_message (id) {
+  $.ajax({
+    url: '/api/message/'+id,
+    method: 'DELETE'
+  })
+}

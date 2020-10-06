@@ -25,5 +25,11 @@ defmodule App.PublicInteractionTest do
       assert message.value == @valid_attrs.value
       assert message.sender_ip == @valid_attrs.sender_ip
     end
+
+    test "delete_message/1 deletes message" do
+      message = message_fixture()
+      assert {:ok, %Message{}} = PublicInteraction.delete_message(message)
+      assert_raise Ecto.NoResultsError, fn -> PublicInteraction.get_message!(message.id) end
+    end
   end
 end

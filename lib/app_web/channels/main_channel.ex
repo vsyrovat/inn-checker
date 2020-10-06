@@ -26,6 +26,7 @@ defmodule AppWeb.MainChannel do
 
   defp format_msg(%Message{} = msg) do
     %{
+      id: msg.id,
       datetime: format_datetime(msg.inserted_at),
       inn: msg.value,
       is_correct: is_correct(msg)
