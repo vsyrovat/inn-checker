@@ -4,8 +4,8 @@ defmodule AppWeb.MainChannel do
   use AppWeb, :channel
 
   alias App.Banhammer
-  alias App.PublicInteraction
-  alias App.PublicInteraction.Message
+  alias App.Inn
+  alias App.Inn.Message
 
   @impl Phoenix.Channel
   def join("inn:main", _payload, socket) do
@@ -35,7 +35,7 @@ defmodule AppWeb.MainChannel do
 
   @impl Phoenix.Channel
   def handle_info(:after_join, socket) do
-    PublicInteraction.recent_messages()
+    Inn.recent_messages()
     |> Enum.each(fn msg -> push(socket, "new_message", format_msg(msg)) end)
 
     {:noreply, socket}
@@ -60,7 +60,7 @@ defmodule AppWeb.MainChannel do
     sender_ip = socket.assigns[:remote_ip]
 
     unless Banhammer.banned?(sender_ip) do
-      {:ok, msg} = PublicInteraction.save_message(%{value: payload["inn"], sender_ip: sender_ip})
+      {:ok, msg} = Inn.save_message(%{value: payload["inn"], sender_ip: sender_ip})
       broadcast!(socket, "new_message", format_msg(msg))
     end
 

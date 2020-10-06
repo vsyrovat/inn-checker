@@ -1,7 +1,7 @@
 defmodule AppWeb.Admin.MessagesView do
   use AppWeb, :view
 
-  alias App.PublicInteraction.Message
+  alias App.Inn.Message
 
   defdelegate correct?(msg), to: Message
 end

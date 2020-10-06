@@ -2,7 +2,7 @@ defmodule AppWeb.ApiController do
   use AppWeb, :controller
 
   alias App.Banhammer
-  alias App.PublicInteraction
+  alias App.Inn
   alias AppWeb.Auth
   alias AppWeb.Endpoint
 
@@ -10,8 +10,8 @@ defmodule AppWeb.ApiController do
 
   def delete_message(conn, %{"id" => id} = _params) do
     if Auth.operator?(conn) do
-      message = PublicInteraction.get_message!(id)
-      PublicInteraction.delete_message(message)
+      message = Inn.get_message!(id)
+      Inn.delete_message(message)
       Endpoint.broadcast("inn:main", "delete_message", %{id: id})
       json(conn, %{success: true})
     else

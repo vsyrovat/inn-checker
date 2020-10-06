@@ -1,11 +1,11 @@
-defmodule App.PublicInteraction do
+defmodule App.Inn do
   @moduledoc """
-  Context for interaction with public users through the Messages
+  Context for manipulating Inn via the Message entity
   """
 
   import Ecto.Query
 
-  alias App.PublicInteraction.Message
+  alias App.Inn.Message
   alias App.Repo
 
   def recent_messages(limit \\ 25) when is_integer(limit) do

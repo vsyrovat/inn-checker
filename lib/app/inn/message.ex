@@ -1,4 +1,4 @@
-defmodule App.PublicInteraction.Message do
+defmodule App.Inn.Message do
   @moduledoc """
   Database entity representing message from the browser with ITN/TIN for check.
   """

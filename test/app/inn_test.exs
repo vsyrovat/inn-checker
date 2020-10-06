@@ -1,11 +1,11 @@
-defmodule App.PublicInteractionTest do
+defmodule App.InnTest do
   use App.DataCase
 
-  alias App.PublicInteraction
+  alias App.Inn
   alias App.Repo
 
   describe "messages" do
-    alias App.PublicInteraction.Message
+    alias App.Inn.Message
 
     @valid_attrs %{value: "some value", sender_ip: "some ip"}
 
@@ -13,14 +13,14 @@ defmodule App.PublicInteractionTest do
       {:ok, message} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> PublicInteraction.save_message()
+        |> Inn.save_message()
 
       message
     end
 
     test "recent_messages/1 returns recent messages" do
       message = message_fixture()
-      assert PublicInteraction.recent_messages() == [message]
+      assert Inn.recent_messages() == [message]
       assert Repo.get!(Message, message.id) == message
       assert message.value == @valid_attrs.value
       assert message.sender_ip == @valid_attrs.sender_ip
@@ -28,8 +28,8 @@ defmodule App.PublicInteractionTest do
 
     test "delete_message/1 deletes message" do
       message = message_fixture()
-      assert {:ok, %Message{}} = PublicInteraction.delete_message(message)
-      assert_raise Ecto.NoResultsError, fn -> PublicInteraction.get_message!(message.id) end
+      assert {:ok, %Message{}} = Inn.delete_message(message)
+      assert_raise Ecto.NoResultsError, fn -> Inn.get_message!(message.id) end
     end
   end
 end
