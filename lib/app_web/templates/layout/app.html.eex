@@ -11,6 +11,21 @@
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <div class="row">
+        <div class="col-sm">
+          <%= link "Home", to: Routes.page_path(@conn, :index) %>
+        </div>
+        <div class="col-sm text-right">
+          <%= if @conn.assigns.current_user do %>
+            <%= @conn.assigns.current_user.login %> |
+            <%= link "Logout", to: Routes.session_path(@conn, :delete), method: :post %>
+          <% else %>
+            <%= link "Login", to: Routes.session_path(@conn, :new) %>
+          <% end %>
+        </div>
+      </div>
+
       <%= @inner_content %>
     </main>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>

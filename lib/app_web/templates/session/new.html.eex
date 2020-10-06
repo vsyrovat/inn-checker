@@ -1,0 +1,16 @@
+<h1>Login</h1>
+
+<%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+  <div class="form-group">
+    <%= text_input f, :login, placeholder: "Login", class: "form-control js-input-login" %>
+  </div>
+  <div class="form-group">
+    <%= password_input f, :password, placeholder: "Password", class: "form-control js-input-password" %>
+  </div>
+  <%= submit "Login", class: "btn btn-primary" %>
+<% end %>
+
+<p style="margin-top: 1rem">
+  Credentials: <a class="js-credentials" data-login="admin" data-password="admin" href="#">admin/admin</a>
+  or <a class="js-credentials" data-login="operator" data-password="operator" href="#">operator/operator</a>
+</p>

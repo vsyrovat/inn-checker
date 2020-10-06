@@ -49,7 +49,9 @@ defmodule App.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:guardian, "~> 2.1"},
+      {:argon2_elixir, "~> 2.3"}
     ]
   end
 

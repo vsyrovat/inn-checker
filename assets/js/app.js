@@ -46,3 +46,8 @@ channel.on('new_message', payload => {
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+$('.js-credentials').on('click', function(){
+  $('.js-input-login').val($(this).data('login'))
+  $('.js-input-password').val($(this).data('password'))
+})

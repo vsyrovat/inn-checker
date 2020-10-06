@@ -21,3 +21,6 @@ config :app, AppWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :app, App.Guardian, secret_key: "TestSecretKey"
+config :argon2_elixir, t_cost: 1, m_cost: 8
