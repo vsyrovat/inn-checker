@@ -23,3 +23,7 @@
     <% end %>
   </div>
 </div>
+
+<div style="margin-top: 5rem; font-style: italic">
+Note: In case of websocker freezes with Firefox -- use another browser (Chromium etc).
+</div>
