@@ -17,10 +17,27 @@ defmodule AppWeb.UserSocket do
   # performing token verification on connect.
   @impl true
   def connect(_params, socket, connect_info) do
-    remote_ip = connect_info[:peer_data][:address] |> :inet_parse.ntoa() |> to_string()
-    socket = socket |> assign(:remote_ip, remote_ip)
+    socket = assign(socket, :remote_ip, remote_ip(connect_info))
     {:ok, socket}
   end
+
+  defp remote_ip(connect_info) do
+    remote_ip_by_header(connect_info, "x-real-ip") ||
+      remote_ip_by_peer_data(connect_info)
+  end
+
+  defp remote_ip_by_header(%{x_headers: x_headers}, header_name), do: find_header(x_headers, header_name)
+  defp remote_ip_by_header(_, _), do: nil
+
+  defp find_header([{key, val} | tail], header_name) do
+    if key == header_name, do: val, else: find_header(tail, header_name)
+  end
+
+  defp find_header([], _), do: nil
+
+  defp remote_ip_by_peer_data(%{peer_data: %{address: nil}}), do: nil
+  defp remote_ip_by_peer_data(%{peer_data: %{address: address}}), do: :inet_parse.ntoa(address) |> to_string()
+  defp remote_ip_by_peer_data(_), do: nil
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
