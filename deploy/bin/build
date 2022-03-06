@@ -16,3 +16,5 @@ PROJECT_DIR="$( dirname "$( dirname "${DIR}" )" )"
 docker build -f $DIR/../Dockerfile -t $DOCKER_IMAGE $PROJECT_DIR
 
 docker save $DOCKER_IMAGE | gzip > $PROJECT_DIR/$DOCKER_IMAGE_FILE
+
+[ "$(docker image inspect $DOCKER_IMAGE 2>/dev/null)" != "[]" ] && docker image rm $DOCKER_IMAGE

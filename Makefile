@@ -4,14 +4,14 @@ help:
 
 .PHONY: setup
 setup:
-	mix deps.clean --unused
 	mix deps.get
 	mix deps.compile
+	mix compile
 	npm i --prefix assets
 
 .PHONY: clean
 clean:
-	rm -rf _build .elixir_ls deps priv/plts priv/static
+	rm -rf _build .elixir_ls deps priv/plts priv/static assets/node_modules
 
 .PHONY: test
 test:
@@ -19,3 +19,7 @@ test:
 	mix test
 	mix credo --strict
 	mix dialyzer
+
+.PHONY: run
+run:
+	mix phx.server

@@ -1,11 +1,10 @@
-FROM hexpm/elixir:1.11.0-erlang-23.1.1-alpine-3.12.0 AS build
+FROM hexpm/elixir:1.13.3-erlang-24.2.2-debian-bullseye-20210902 AS build
 
-RUN apk add --no-cache build-base npm git python2
+RUN apt-get install -y build-essential npm && \
+    mix local.hex --force && \
+    mix local.rebar --force
 
 WORKDIR /app
-
-RUN mix local.hex --force && \
-    mix local.rebar --force
 
 # ENV LC_ALL=en_US.utf8
 # RUN ulimit -n 16384
@@ -13,31 +12,31 @@ RUN mix local.hex --force && \
 ENV MIX_ENV=prod
 
 COPY mix.exs mix.lock ./
-COPY config config
 RUN mix do deps.get --only prod, deps.compile
 
 COPY assets/package.json assets/package-lock.json ./assets/
-# RUN cd assets; npm i && node_modules/webpack/bin/webpack.js --mode production; cd -
 RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
-COPY priv priv
 COPY assets assets
 RUN npm run --prefix ./assets deploy
+
+COPY config config
+COPY priv priv
 RUN mix phx.digest
 
 COPY lib lib
 RUN mix do compile, release
 
 
-FROM alpine:3.12.0 AS app
-RUN apk add --no-cache openssl ncurses-libs
+FROM debian:bullseye-20210902-slim AS app
+
 WORKDIR /app
 
-RUN chown nobody:nobody /app
+RUN chown nobody:nogroup /app
 
-USER nobody:nobody
+USER nobody:nogroup
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/app ./
+COPY --from=build --chown=nobody:nogroup /app/_build/prod/rel/app ./
 
 ENV HOME=/app
 

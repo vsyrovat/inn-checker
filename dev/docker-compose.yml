@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   postgres:
-    image: postgres:13.0-alpine
+    image: postgres:14.2-alpine
     command: -h 127.0.0.1,::1 -p ${POSTGRES_PORT}
     environment:
       POSTGRES_USER: postgres
